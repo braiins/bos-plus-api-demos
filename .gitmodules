@@ -1,0 +1,3 @@
+[submodule "bos-plus-api"]
+	path = bos-plus-api
+	url = https://github.com/braiins/bos-plus-api
