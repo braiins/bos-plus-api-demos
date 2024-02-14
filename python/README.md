@@ -6,9 +6,9 @@
 ### Prerequisites
 
 - Python 3.8 or newer
-- Poetry for dependency management
+- Poetry for dependency management: <https://python-poetry.org/docs/#installing-with-the-official-installer>
 - It may be a good idea to have `protoc` installed natively in your system. Typically
-  this package will be called `protobuf` on most Linux distributions and in Homebrew.
+  this package will be called `protobuf` on most Linux distributions and in Homebrew: <https://grpc.io/docs/protoc-installation/>
 
 ### Setup
 

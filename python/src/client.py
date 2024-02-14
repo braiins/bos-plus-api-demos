@@ -1,4 +1,5 @@
 import grpc
+import time
 import sys
 import os
 
@@ -8,6 +9,7 @@ sys.path.append(os.path.join(current_dir, 'proto'))
 
 from bos.v1 import authentication_pb2, authentication_pb2_grpc
 from bos.v1 import configuration_pb2, configuration_pb2_grpc
+from bos.v1 import actions_pb2, actions_pb2_grpc
 
 def run_login(channel, username, password):
     # Create a stub
@@ -42,6 +44,32 @@ def get_miner_config(channel, auth_token):
         print(f"Reading config failed: {e}")
         return False
 
+def pause_unpause_test(channel, auth_token):
+    print("Trying to pause and unpause mining after 30 seconds")
+    stub = actions_pb2_grpc.ActionsServiceStub(channel)
+
+    try:
+        print("Trying to pause mining")
+        pause_request = actions_pb2.PauseMiningRequest()
+        pause_response = stub.PauseMining(pause_request, metadata=[("authorization", auth_token)])
+
+        print("Miner response:")
+        print(pause_response)
+
+        time.sleep(30)
+
+        print("Trying to resume mining")
+        resume_request = actions_pb2.ResumeMiningRequest()
+        resume_request = stub.ResumeMining(resume_request, metadata=[("authorization", auth_token)])
+
+        print("Resume response:")
+        print(resume_request)
+        return True
+    except grpc.RpcError as e:
+        print(f"Reading config failed: {e}")
+        return False
+
+
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: client.py <server_endpoint>")
@@ -57,3 +85,4 @@ if __name__ == "__main__":
 
     if auth_token:
         get_miner_config(channel, auth_token)
+        pause_unpause_test(channel, auth_token)
