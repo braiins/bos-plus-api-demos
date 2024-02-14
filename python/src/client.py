@@ -1,4 +1,3 @@
-
 import grpc
 import sys
 import os
@@ -6,11 +5,12 @@ import os
 # Import the generated classes
 current_dir = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(os.path.join(current_dir, 'proto'))
-from bos.v1 import authentication_pb2, authentication_pb2_grpc
 
-def run_login(endpoint, username, password):
-    # Create a channel and a stub
-    channel = grpc.insecure_channel(endpoint)
+from bos.v1 import authentication_pb2, authentication_pb2_grpc
+from bos.v1 import configuration_pb2, configuration_pb2_grpc
+
+def run_login(channel, username, password):
+    # Create a stub
     stub = authentication_pb2_grpc.AuthenticationServiceStub(channel)
 
     # Create a login request
@@ -18,11 +18,28 @@ def run_login(endpoint, username, password):
 
     # Call the login RPC
     try:
-        login_response = stub.Login(login_request)
-        print("Login successful.")
-        return True
+        response_future = stub.Login.future(login_request)
+        response = response_future.result()
+        headers = response_future.initial_metadata()
+        print("Login successful. Headers:", headers)
+        return headers[0].value # auth token
+
     except grpc.RpcError as e:
         print(f"Login failed: {e}")
+        return False
+
+def get_miner_config(channel, auth_token):
+    stub = configuration_pb2_grpc.ConfigurationServiceStub(channel)
+    cfg_request = configuration_pb2.GetMinerConfigurationRequest()
+
+    try:
+        # We need to include the auth token in the metadata
+        cfg_response = stub.GetMinerConfiguration(cfg_request, metadata=[("authorization", auth_token)])
+        print("Configuration read:")
+        print(cfg_response)
+        return True
+    except grpc.RpcError as e:
+        print(f"Reading config failed: {e}")
         return False
 
 if __name__ == "__main__":
@@ -34,7 +51,9 @@ if __name__ == "__main__":
     username = input("Enter username: ")
     password = input("Enter password: ")
 
-    info = run_login(endpoint, username, password)
+    channel = grpc.insecure_channel(endpoint)
 
-    if run_login:
-        print("Logged in successfully.");
+    auth_token = run_login(channel, username, password)
+
+    if auth_token:
+        get_miner_config(channel, auth_token)
