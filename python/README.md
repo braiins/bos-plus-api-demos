@@ -14,7 +14,7 @@
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/braiins/bos-api-demo.git
+    git clone --recurse-submodules https://github.com/braiins/bos-api-demo.git
     cd bos-api-demo/python
     ```
 
@@ -33,7 +33,7 @@
 To call the gRPC API from the client:
 
 ```bash
-poetry run python src/bos_api_demo/client.py
+poetry run python src/client.py
 ```
 
 ## Development
