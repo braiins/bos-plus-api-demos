@@ -7,7 +7,8 @@ In this repository, you'll find examples in multiple programming languages, maki
 The repository is organized by programming language, with each language contained in its own directory:
 
 - `/python` - Examples written in Python.
-- `/go` - Examples written in Go (coming soon).
+- `/go` - Examples written in Go.
+- `/rust` - Examples written in Rust.
 
 Each directory contains a set of examples showcasing various API interactions, from basic authentication to performing specific operations like monitoring device status or adjusting settings.
 
