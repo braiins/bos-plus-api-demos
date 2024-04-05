@@ -37,7 +37,7 @@ To work on this project, you will need:
 3. **Run the Project**:
     After building, you can run your Rust application directly through Cargo:
     ```bash
-    cargo run -- <MINER-IP>:50051
+    cargo run -- grpc://<MINER-IP>:50051
     ```
 
     Replace `<MINER-IP>` with the actual IP address of the miner you wish to connect to
@@ -49,7 +49,7 @@ This application interacts with the Braiins OS+ Public API to demonstrate functi
 To run the application with the required miner IP and port:
 
 ```bash
-cargo run -- <MINER-IP>:50051
+cargo run -- grpc://<MINER-IP>:50051
 ```
 
 Ensure to replace `<MINER-IP>` with the actual IP address of your target miner.
