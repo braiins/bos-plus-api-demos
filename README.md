@@ -17,7 +17,7 @@ Each directory contains a set of examples showcasing various API interactions, f
 To get started with these examples, clone this repository to your local machine:
 
 ```bash
-git clone --recurse-submodules https://github.com/your-github-username/braiins-os-plus-api-examples.git
+git clone --recurse-submodules https://github.com/braiins/bos-plus-api-demos.git
 ```
 
 Navigate into the language-specific directory of your choice, and refer to the README.md file within that directory for language-specific setup instructions and dependencies.
